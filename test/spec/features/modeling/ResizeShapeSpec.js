@@ -14,15 +14,13 @@ describe('features/modeling - resize shape', function() {
 
   beforeEach(Matchers.addDeepEquals);
 
-
-  var diagramXML = require('../../../fixtures/bpmn/simple-resizable.bpmn');
-
-  var testModules = [ coreModule, modelingModule ];
-
-  beforeEach(bootstrapModeler(diagramXML, { modules: testModules }));
-
-
   describe('shape', function() {
+
+    var diagramXML = require('../../../fixtures/bpmn/simple-resizable.bpmn');
+
+    var testModules = [ coreModule, modelingModule ];
+
+    beforeEach(bootstrapModeler(diagramXML, { modules: testModules }));
 
 
     it('should resize', inject(function(elementRegistry, modeling) {
@@ -70,4 +68,32 @@ describe('features/modeling - resize shape', function() {
 
   });
 
+  describe('resize text annotation', function () {
+
+    var diagramXML = require('../../../fixtures/bpmn/simple-association.bpmn');
+
+    var testModules = [ coreModule, modelingModule ];
+
+    beforeEach(bootstrapModeler(diagramXML, { modules: testModules }));
+    
+    
+    it('shouldn\'t resize negative bounds', inject(function(elementRegistry, modeling) {
+      
+      // given
+      var textAnnotationElement = elementRegistry.get('TextAnnotation_1');
+
+      // when
+
+      // Decreasing width by 100px
+      function resize() {
+        modeling.resizeShape(textAnnotationElement, { x: 368, y: 140, width: 0, height: 0 });
+      }
+
+      expect(resize).toThrow(new Error('width and height cannot be less than 10px'));
+    }));
+
+  });
+
 });
+
+
