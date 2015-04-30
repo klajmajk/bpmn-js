@@ -28,7 +28,7 @@ describe('Modeler', function() {
   });
 
 
-  it('should import collaboration', function(done) {
+  iit('should import collaboration', function(done) {
     var xml = require('../fixtures/bpmn/collaboration-message-flows.bpmn');
     createModeler(xml, done);
   });
